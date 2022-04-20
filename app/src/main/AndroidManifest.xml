@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="in.calibrage.AkshayaFA"
+    android:versionCode="18"
+    android:versionName="18.0">
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.STORAGE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@drawable/ic_logo"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@drawable/ic_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup">
+        <activity android:name=".Views.Activities.bioproducts_list"></activity>
+        <activity android:name=".Views.Activities.BioLabProducts" />
+        <activity android:name=".Views.transport.FarmerTransportServiceActivity" />
+        <activity android:name=".Views.Activities.QRScanner_Activity" />
+        <activity android:name=".Views.Activities.Transport_service_questioner_farmer" />
+        <activity android:name=".Views.Activities.Transport_service_questioner_vendor" />
+        <activity android:name=".Views.Activities.Special_Fee" />
+        <activity android:name=".Views.Activities.unpaidcollections" />
+        <activity
+            android:name=".Views.Activities.product_list_fert"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CropMaintanceVisitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.PaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.RecommendationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.CollectionsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.Godown_list"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.product_list"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.RequestListctivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.myRequest_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.Visit_request_Activity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.Quickpay_SummaryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.Fert_godown_list"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.pole_godown_list"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.LabourActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.RequestVisitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.QuickPayActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.FertilizerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.PoleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.LoanActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.LabourRecommendationsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.QRScannerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.OtpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.LanguageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.Farmar_Login"
+            android:parentActivityName=".Views.Activities.HomeActivity"
+            android:screenOrientation="portrait">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Views.Activities.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".Views.Activities.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.Activities.HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Views.SplashActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
