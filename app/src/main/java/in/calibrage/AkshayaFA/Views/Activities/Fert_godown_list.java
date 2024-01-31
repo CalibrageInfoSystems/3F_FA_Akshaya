@@ -1,5 +1,6 @@
 package in.calibrage.AkshayaFA.Views.Activities;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -69,6 +69,7 @@ import rx.schedulers.Schedulers;
 
 import static in.calibrage.AkshayaFA.common.CommonUtil.updateResources;
 
+
 public class Fert_godown_list extends BaseActivity {
     //region variables
     public static final String TAG = Fert_godown_list.class.getSimpleName();
@@ -76,59 +77,58 @@ public class Fert_godown_list extends BaseActivity {
      *
      * this is shows godows and payment process also
      * */
-    private Integer User_id;
     Spinner paymentspin;
-    LoginResponse created_user;
     List<Integer> payment_id = new ArrayList<Integer>();
     private Context ctx;
     private Button btn_submit, button;
     private RecyclerView lst_godown_list;
     private LinearLayoutManager linearLayoutManager;
 
-    private TextView txt_select_godown, txt_Payment_mode, text_amount, Final_amount, gst_amount, subsidy_amount, paybleamount,sgst_amount,cgst_amount;
+    private TextView txt_select_godown, txt_Payment_mode, text_amount, Final_amount, gst_amount, subsidy_amount,
+            paybleamount,sgst_amount,cgst_amount,transamount,tsgst_amount,tcgst_amount,totaltransportamount;
     private BottomSheetBehavior behavior;
-    double products_amount;
+    double products_amount,transport_AmountwithoutGst;
     private Toolbar toolbar;
     private Subscription mSubscription;
     private SpotsDialog mdilogue;
     private GodownListAdapter adapter;
     Integer RequestType;
-
+    int productspay_amount,TransportAmount;
     ArrayList<Double> gstvalues = new ArrayList<Double>();
+    ArrayList<Double> transgstvalues = new ArrayList<Double>();
 
     String product_name, selected_name;
     String Farmer_code, formattedDate, Godown_name,Godowncode;
     ImageView home_btn;
-    Integer GodownId, quantity,Totalgst;
-
+    Integer GodownId, quantity;
+    String mobile_number;
     DecimalFormat dec = new DecimalFormat("####0.00");
     List<String> listdata = new ArrayList<>();
 
-String mobile_number;
-    private PinEntryEditText pinEntry;
-    Button dialogButton;
+    private FarmerOtpResponceModel catagoriesList;
+    Integer Cluster_id;
+    int productsamount,   Totalgst;
     private ArrayList<product> product_List = new ArrayList<>();
     private String final_amount, only_amount;
     int mealTotal = 0;
-    String Gst_sum, Amount_, include_gst_amount;
+    String Gst_sum, Amount_, include_gst_amount,Transport_amount;
     Integer Paymode, Statusid;
     private fert_producut_Adapter mAdapter;
     RecyclerView recycler_view_products;
     PaymentsType paymentsTypes;
     double payble_amount, remaining_subsidy_amountt;
     double Subsidy_amount, subsidy_amountt;
-    double Gst_total;
-    int productsamount;
+    double Gst_total,TransGsttotal;
+  //  double transportamount;
     //endregion
     private List<String> selected_list = new ArrayList<String>();
-    private FarmerOtpResponceModel catagoriesList;
-    Integer Cluster_id;
-    String statename;
+    String state_name;
+    private PinEntryEditText pinEntry;
+    Button dialogButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final int langID = SharedPrefsData.getInstance(this).getIntFromSharedPrefs("lang");
-
         if (langID == 2)
             updateResources(this, "te");
         else if (langID == 3)
@@ -154,7 +154,7 @@ String mobile_number;
 
         subsidy_amount = findViewById(R.id.subcdamount);
         paybleamount = findViewById(R.id.paybleamount);
-        //     sw_paymentMode = findViewById(R.id.sw_paymentMode);
+        //         sw_paymentMode = findViewById(R.id.sw_paymentMode);
 
         mdilogue = (SpotsDialog) new SpotsDialog.Builder()
                 .setContext(this)
@@ -163,10 +163,14 @@ String mobile_number;
 //        txt_select_godown.setText(CommonUtil.getMultiColourString(getString(R.string.select_godown)));
 //        txt_Payment_mode.setText(CommonUtil.getMultiColourString(getString(R.string.payment_mode)));
         text_amount = (TextView) findViewById(R.id.amount);
+        transamount = (TextView) findViewById(R.id.transamount);
         Final_amount = (TextView) findViewById(R.id.final_amount_gst);
         gst_amount = (TextView) findViewById(R.id.gst_amount);
         sgst_amount =(TextView) findViewById(R.id.sgst_amount);
+        tcgst_amount =(TextView) findViewById(R.id.tcgst_amount);
+       tsgst_amount =(TextView) findViewById(R.id.tsgst_amount);
         cgst_amount =(TextView) findViewById(R.id.cgst_amount);
+        totaltransportamount= (TextView)findViewById(R.id.totaltransportamount);
         home_btn = (ImageView) findViewById(R.id.home_btn);
         home_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,7 +183,7 @@ String mobile_number;
             }
         });
         SharedPreferences pref = getSharedPreferences("FARMER", MODE_PRIVATE);
-        Farmer_code = pref.getString("farmerid", "");
+        Farmer_code = pref.getString("farmerid", "").trim();
         if (isOnline()) {
             getPaymentMods();
             getFertilizerSubsidies();
@@ -209,7 +213,7 @@ String mobile_number;
 
     }
 
-    //region API Requests
+    //Payment mode
     private void getPaymentMods() {
         mdilogue.show();
         ApiService service = ServiceFactory.createRetrofitService(this, ApiService.class);
@@ -257,33 +261,34 @@ String mobile_number;
                 });
     }
 
+    @SuppressLint("LongLogTag")
     private void setviews() {
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            include_gst_amount = extras.getString("Total_amount");
+            Transport_amount = extras.getString("Transport_amount");
+            GodownId = extras.getInt("godown_id");
+            Godowncode = extras.getString("godown_code");
+            Godown_name = extras.getString("godown_name");
+        }
         catagoriesList = SharedPrefsData.getCatagories(this);
         if (null != catagoriesList.getResult().getFarmerDetails().get(0).getClusterId() && 0 != catagoriesList.getResult().getFarmerDetails().get(0).getClusterId())
             Cluster_id =  catagoriesList.getResult().getFarmerDetails().get(0).getClusterId();
-        Log.e("Cluster_id===",Cluster_id+"");
 
-        statename =catagoriesList.getResult().getFarmerDetails().get(0).getStateName();
+        state_name = catagoriesList.getResult().getFarmerDetails().get(0).getStateName();
+        Log.e("Cluster_id===",Cluster_id+"");
         Calendar c = Calendar.getInstance();
         System.out.println("Current time => " + c.getTime());
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         formattedDate = df.format(c.getTime());
-        for (int i = 0; i < SharedPrefsData.getCartData(this).size(); i++) {
-            double gst = SharedPrefsData.getCartData(this).get(i).getGst();
-
-            Double amount_product = SharedPrefsData.getCartData(this).get(i).getAmount();
-            int quantity = SharedPrefsData.getCartData(this).get(i).getQuandity();
-            String quan = String.valueOf(quantity);
-            //  mealTotal = amount_product * quantity;
-            String product_amount = String.valueOf(mealTotal);
-
-            double percentage = quantity * gst;
-
-            Log.e("percentage_value===", String.valueOf(percentage));
-            //  int k = (int)(product_amount*(percentage/100.0f));
-            //  double k = (double) (  percentage * amount_product) / 100;
-            //  Log.e("k===",k+"");
+        for (int i = 0; i < SharedPrefsData.getFertCartData(this).size(); i++) {
+            double gst = SharedPrefsData.getFertCartData(this).get(i).getGst();
+            double tgst = SharedPrefsData.getFertCartData(this).get(i).getTransgst();
+            Double amount_product = SharedPrefsData.getFertCartData(this).get(i).getAmount();
+            int quantity = SharedPrefsData.getFertCartData(this).get(i).getQuandity();
+            Double transportamountbyproduct = SharedPrefsData.getFertCartData(this).get(i).getTranportPrice();
             double totalPrice =quantity * amount_product;
             Log.e("totalPrice===",totalPrice+"");
             double gstPrice = totalPrice - totalPrice / (1 + (gst/ 100));
@@ -292,12 +297,8 @@ String mobile_number;
             Log.e("BasePrice===",BasePrice+"");
 
             gstvalues.add(gstPrice);
-
-            Log.e("percentage_value===", String.valueOf(gstvalues));
             Gst_total = CommonUtil.sum(gstvalues);
-            // include_gst_amount = Gst_sum + Amount_;
-            Log.e("gst_Sum===", String.valueOf(Gst_total));
-            //  Totalgst =( int)Math.round(Gst_total);
+
             gst_amount.setText(dec.format(Gst_total));
             Log.e("Totalgst===",Gst_total+"");
             double cgst = (double) Gst_total/2;
@@ -305,17 +306,31 @@ String mobile_number;
             sgst_amount.setText(dec.format(cgst));
             cgst_amount.setText(dec.format(cgst));
 
-            //  Final_amount.setText("" + String.valueOf(include_gst_amount));
+            Log.e("percentage_value===", String.valueOf(gstvalues));
+          double   transportamount =quantity * transportamountbyproduct;
+            Log.e("transportamount===",transportamount+"");
+            double transgstPrice = transportamount - transportamount / (1 + (tgst/ 100));
+            Log.e("transgstPrice===",transgstPrice+"");
+            double  transportpricewithoutgst = transportamount - transgstPrice;
+            Log.e("transportpricewithoutgst===",transportpricewithoutgst+"");
+            transgstvalues.add(transgstPrice);
+            TransGsttotal = CommonUtil.sum(transgstvalues);
+            Log.e("transgst_Sum===", String.valueOf(TransGsttotal));
+
+
+            double tcgst = (double) TransGsttotal/2;
+            Log.e("Totalgst===",cgst+"");
+            tsgst_amount.setText(dec.format(tcgst));
+            tcgst_amount.setText(dec.format(tcgst));
+        //    transamount.setText(dec.format(transportpricewithoutgst));
+        //    totaltransportamount.setText(dec.format(transportamount));
+            // include_gst_amount = Gst_sum + Amount_;
+            Log.e("gst_Sum===", String.valueOf(Gst_total));
+            //  Totalgst =( int)Math.round(Gst_total);
+
 
         }
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            include_gst_amount = extras.getString("Total_amount");
 
-            GodownId = extras.getInt("godown_id");
-            Godowncode = extras.getString("godown_code");
-            Godown_name = extras.getString("godown_name");
-        }
         Final_amount.setText(include_gst_amount);
         DecimalFormat dff = new DecimalFormat("####0.00");
         DecimalFormat form = new DecimalFormat("0.00");
@@ -328,9 +343,11 @@ String mobile_number;
 
         products_amount = Double.parseDouble(include_gst_amount) - Double.parseDouble(String.valueOf(Gst_total));
         Log.e("products_amount===", String.valueOf(products_amount));
+        transport_AmountwithoutGst =Double.parseDouble(Transport_amount) - Double.parseDouble(String.valueOf(TransGsttotal));
         // productsamount = ( int)Math.round(products_amount);
         text_amount.setText(dec.format(products_amount));
-
+        transamount.setText(dec.format(transport_AmountwithoutGst));
+        totaltransportamount.setText(Transport_amount);
 
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -340,7 +357,7 @@ String mobile_number;
 
             }
         });
-        mAdapter = new fert_producut_Adapter(this, SharedPrefsData.getCartData(this));
+        mAdapter = new fert_producut_Adapter(this, SharedPrefsData.getFertCartData(this));
         recycler_view_products.setAdapter(mAdapter);
 //        behavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
 //            @Override
@@ -353,7 +370,11 @@ String mobile_number;
 //                // React to dragging events
 //            }
 //        });
-
+        payble_amount =  Double.parseDouble(include_gst_amount) + Double.parseDouble(String.valueOf(Transport_amount));
+//        productspay_amount= ( int)Math.round(payble_amount);
+//        TransportAmount     =  ( int)Math.round(Double.parseDouble(Transport_amount));
+//        Log.e("products_amount===", String.valueOf(productspay_amount));
+//        Log.e("TransportAmount===", String.valueOf(TransportAmount));
         paybleamount.setText(dec.format(payble_amount));
 
         paymentspin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -372,10 +393,8 @@ String mobile_number;
             }
         });
     }
-
+    //Fertilizer submit  API Requests
     private void FertilizerRequest() {
-
-
         mdilogue.show();
         JsonObject object = fertReuestobject();
         ApiService service = ServiceFactory.createRetrofitService(this, ApiService.class);
@@ -401,18 +420,17 @@ String mobile_number;
                             }
                             e.printStackTrace();
                         }
-                        mdilogue.cancel();
+                        mdilogue.dismiss();
                     }
 
                     @RequiresApi(api = Build.VERSION_CODES.M)
                     @Override
                     public void onNext(FertResponse fertResponse) {
 
-
-
                         if (fertResponse.getIsSuccess()) {
                             mdilogue.dismiss();
                             btn_submit.setEnabled(false);
+
                             // Toast.makeText(getApplicationContext(), "sucess", Toast.LENGTH_SHORT).show();
 
                             new Handler().postDelayed(new Runnable() {
@@ -435,13 +453,18 @@ String mobile_number;
                                     displayList.add(new MSGmodel(getString(R.string.Godown_name), Godown_name));
                                     displayList.add(new MSGmodel(getString(R.string.product_quantity), selected_name));
 
-                                    displayList.add(new MSGmodel(getResources().getString(R.string.amount), dec.format(products_amount )));
-                                    displayList.add(new MSGmodel(getResources().getString(R.string.gst_amount), dec.format(Gst_total )));
+                                    displayList.add(new MSGmodel(getResources().getString(R.string.amount), dec.format(products_amount)));
+                                    displayList.add(new MSGmodel(getResources().getString(R.string.gst_amount),dec.format(Gst_total)));
 
                                     displayList.add(new MSGmodel(getResources().getString(R.string.total_amt), include_gst_amount));
+                                    displayList.add(new MSGmodel(getResources().getString(R.string.transamount),  dec.format(transport_AmountwithoutGst)));
+                                    displayList.add(new MSGmodel(getResources().getString(R.string.transgst),dec.format(TransGsttotal)));
 
-                                    displayList.add(new MSGmodel(getResources().getString(R.string.subcd_amt), dec.format(Math.round(Subsidy_amount))));
+                                  displayList.add(new MSGmodel(getResources().getString(R.string.totaltransportcost), Transport_amount));
                                     //Double subAmount = subsidy_amountt- include_gst_amount dec.format(Gst_total)
+                                    displayList.add(new MSGmodel(getResources().getString(R.string.subcd_amt), dec.format(Math.round(Subsidy_amount))));
+
+
 
                                     displayList.add(new MSGmodel(getResources().getString(R.string.amount_payble),paybleamount.getText().toString()));
 
@@ -451,8 +474,9 @@ String mobile_number;
                                     showSuccessDialog(displayList, getString(R.string.success_fertilizer));
                                 }
                             }, 300);
-                        } else {
-                            showDialog(Fert_godown_list.this, fertResponse.getEndUserMessage());
+                        }
+                        else {
+                            showDialog(Fert_godown_list.this, getString(R.string.endusermsg));
                         }
 
 
@@ -478,10 +502,6 @@ String mobile_number;
     }
 
     private JsonObject fertReuestobject() {
-        created_user = SharedPrefsData.getCreatedUser(this);
-
-        User_id= created_user.getResult().getUserInfos().getId();
-
         String statecode = SharedPrefsData.getInstance(this).getStringFromSharedPrefs("statecode");
         Log.e("state===",statecode);
         FertRequest requestModel = new FertRequest();
@@ -492,13 +512,10 @@ String mobile_number;
         requestModel.setFarmerName(SharedPrefsData.getusername(this));
         requestModel.setPlotCode(null);
         requestModel.setRequestCreatedDate(formattedDate);
-        requestModel.setCreatedByUserId(User_id);
-        requestModel.setUpdatedByUserId(User_id);
-        requestModel.setIsFarmerRequest(false);
-requestModel.setStateCode(statecode);
-requestModel.setStateName(statename);
+        requestModel.setIsFarmerRequest(true);
+        requestModel.setCreatedByUserId(null);
         requestModel.setCreatedDate(formattedDate);
-
+        requestModel.setUpdatedByUserId(null);
         requestModel.setUpdatedDate(formattedDate);
         requestModel.setGodownId(GodownId);
         requestModel.setPaymentModeType((payment_id.get(paymentspin.getSelectedItemPosition() - 1)));
@@ -506,26 +523,30 @@ requestModel.setStateName(statename);
         requestModel.setFileExtension(null);
         requestModel.setFileLocation(null);
         requestModel.setTotalCost(Double.valueOf(include_gst_amount));
-requestModel.setClusterId(Cluster_id);
+        requestModel.setStateCode(statecode);
+        requestModel.setStateName(state_name);
         requestModel.setSubcidyAmount(Double.valueOf(Subsidy_amount));
         requestModel.setPaybleAmount(Double.valueOf(paybleamount.getText().toString()));
+        requestModel.setTransportPayableAmount(Double.valueOf(totaltransportamount.getText().toString()));
         requestModel.setComments(null);
         requestModel.setGodownCode(Godowncode);
         requestModel.setCropMaintainceDate(null);
         requestModel.setIssueTypeId(null);
-
+        requestModel.setClusterId(Cluster_id);
         List<FertRequest.RequestProductDetail> req_products = new ArrayList<>();
 
-        for (int i = 0; i < SharedPrefsData.getCartData(this).size(); i++) {
+        for (int i = 0; i < SharedPrefsData.getFertCartData(this).size(); i++) {
 
 
             FertRequest.RequestProductDetail products = new FertRequest.RequestProductDetail();
-            products.setBagCost(SharedPrefsData.getCartData(this).get(i).getAmount());
-            products.setGstPersentage(SharedPrefsData.getCartData(this).get(i).getGst());
-            products.setProductId(SharedPrefsData.getCartData(this).get(i).getProductID());
-            products.setQuantity(SharedPrefsData.getCartData(this).get(i).getQuandity());
-            products.setSize((SharedPrefsData.getCartData(this).get(i).getSize()));
-            products.setProductCode((SharedPrefsData.getCartData(this).get(i).getProduct_code()));
+            products.setBagCost(SharedPrefsData.getFertCartData(this).get(i).getAmount());
+            products.setGstPersentage(SharedPrefsData.getFertCartData(this).get(i).getGst());
+            products.setProductId(SharedPrefsData.getFertCartData(this).get(i).getProductID());
+            products.setQuantity(SharedPrefsData.getFertCartData(this).get(i).getQuandity());
+            products.setSize((SharedPrefsData.getFertCartData(this).get(i).getSize()));
+            products.setProductCode((SharedPrefsData.getFertCartData(this).get(i).getProduct_code()));
+            products.setTransGstPercentage((SharedPrefsData.getFertCartData(this).get(i).getTransgst()));
+            products.setTransporCost((SharedPrefsData.getFertCartData(this).get(i).getTranportPrice()));
 
             req_products.add(products);
         }
@@ -553,7 +574,7 @@ requestModel.setClusterId(Cluster_id);
         });
     }
 
-
+    //get Fertilizer Subsidies  API Requests
     private void getFertilizerSubsidies() {
         mdilogue.show();
         ApiService service = ServiceFactory.createRetrofitService(this, ApiService.class);
@@ -574,7 +595,7 @@ requestModel.setClusterId(Cluster_id);
                     public void onNext(SubsidyResponse subsidyResponse) {
                         mdilogue.cancel();
                         if (subsidyResponse.getIsSuccess()) {
-
+                            // subsidy_amount.setText(dec.format(subsidyResponse.getResult().getRemainingAmount()));
                             subsidy_amountt = subsidyResponse.getResult().getRemainingAmount();
                             subsidy_amount.setText(dec.format(Math.round(subsidyResponse.getResult().getRemainingAmount())));
                             Log.d(TAG, "-----analysis----->> Subsidy Amount : " + subsidy_amountt);
@@ -588,14 +609,13 @@ requestModel.setClusterId(Cluster_id);
                                     payble_amount = 0.0;
                                     paybleamount.setText(dec.format(payble_amount));
                                     Subsidy_amount = Double.parseDouble(include_gst_amount);
-                                  subsidy_amount.setText(dec.format(Subsidy_amount));
+                                    subsidy_amount.setText(dec.format(Subsidy_amount));
                                 } else if (subsidy_amountt < Double.parseDouble(include_gst_amount)) {
                                     Double remaining_Amoubt = Double.parseDouble(include_gst_amount) - subsidy_amountt;
                                     Log.e("remaining_Amoubt===",remaining_Amoubt+"");
                                     Subsidy_amount =subsidy_amountt;
                                     payble_amount =remaining_Amoubt;
                                     paybleamount.setText(dec.format(Math.round(payble_amount)));
-
                                 } else if (subsidy_amountt == 0.0 || subsidy_amountt < 0) {
                                     payble_amount = Double.parseDouble(include_gst_amount);
                                     paybleamount.setText(dec.format(include_gst_amount));
@@ -607,7 +627,7 @@ requestModel.setClusterId(Cluster_id);
                                 subsidy_amount.setText("0.00");
                                 payble_amount = Double.parseDouble(include_gst_amount);
                                 Log.d(TAG, "-----analysis----->> < 560 payble_amount  : " + payble_amount);
-                                paybleamount.setText(dec.format(Math.round(payble_amount)));
+                                paybleamount.setText(dec.format(Math.round(payble_amount) + dec.format(Transport_amount)));
                             }
 
                         }
@@ -615,6 +635,7 @@ requestModel.setClusterId(Cluster_id);
 
                 });
     }
+
 
     public void onSubmit() {
         /*
@@ -634,11 +655,11 @@ requestModel.setClusterId(Cluster_id);
                 }
             }
             else{
-                        showDialog(Fert_godown_list.this, getResources().getString(R.string.Internet));
+                showDialog(Fert_godown_list.this, getResources().getString(R.string.Internet));
 
 
-                }
             }
+        }
 
     }
 
@@ -652,7 +673,7 @@ requestModel.setClusterId(Cluster_id);
         // set the custom dialog components - text, image and button
         TextView farmer_name = (TextView) dialog.findViewById(R.id.farmer_Code);
         pinEntry =  dialog.findViewById(R.id.txt_pin_entry);
-    //String number = mobile_number.replaceAll("\\d(?=(?:\\D*\\d){4})", "*");
+        //String number = mobile_number.replaceAll("\\d(?=(?:\\D*\\d){4})", "*");
         farmer_name.setText(getString(R.string.otp_desc) + " " );
 
         //  ImageView image = (ImageView) dialog.findViewById(R.id.image);
@@ -665,7 +686,7 @@ requestModel.setClusterId(Cluster_id);
             public void onClick(View v) {
                 if (pinEntry.getText() != null & pinEntry.getText().toString().trim() != "" & !TextUtils.isEmpty(pinEntry.getText())) {
                     if (isOnline())
-                      validatefertotp();
+                        validatefertotp();
                     else {
                         showDialog(Fert_godown_list.this, getResources().getString(R.string.Internet));
                     }
@@ -720,7 +741,7 @@ requestModel.setClusterId(Cluster_id);
 
 
 
-                         else {
+                        else {
                             showDialog(Fert_godown_list.this, farmerOtpResponceModel.getEndUserMessage());
                         }
                     }
@@ -773,9 +794,9 @@ requestModel.setClusterId(Cluster_id);
 
                             Log.d(TAG, "onNext: " + farmerResponceModel);
                             if (farmerResponceModel.getIsSuccess()) {
-                        mobile_number = farmerResponceModel.getResult();
+                                mobile_number = farmerResponceModel.getResult();
 
-Log.e("mobile_number======",mobile_number+"");
+                                Log.e("mobile_number======",mobile_number+"");
                             } else {
                                 showDialog(Fert_godown_list.this, getResources().getString(R.string.Invalid));
                             }
@@ -788,24 +809,28 @@ Log.e("mobile_number======",mobile_number+"");
 
     }
 
+
+
     private boolean validations() {
 
 
-        if (paymentspin.getSelectedItemPosition() == 0) {
+        if (paymentspin.getSelectedItemPosition() == 0 ) {
 
             showDialog(Fert_godown_list.this, getResources().getString(R.string.paym_validation));
             return false;
         }
-
-        if (Subsidy_amount == 0.0 && Double.valueOf(paybleamount.getText().toString()) == 0.0) {
-
-
-            showDialog(Fert_godown_list.this, getResources().getString(R.string.both_null));
-            return false;
-        }
+//        else if(Subsidy_amount == 0.0 && paybleamount.getText().toString().equalsIgnoreCase("0.00")){
+//            showDialog(Fert_godown_list.this,  getResources().getString(R.string.Internetpay));
+//            return false;
+//        }
         return true;
     }
 
     //endregion
+    @Override
+    public void onBackPressed() {
 
+        super.onBackPressed();
+
+    }
 }

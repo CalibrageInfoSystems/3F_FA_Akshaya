@@ -956,7 +956,7 @@
     <string name="Valid_mandal">Please Select Mandal(s)</string>
     <string name="Valid_state">Please Select State</string>
     <string name="enternumofvehicle">Please Enter No of Vehicles</string>
-    <string name="validatevehicletype">Please Select Vehicle Type</string>
+    <string name="validatevehicletype">దయచేసి వాహనం రకాన్ని ఎంచుకోండి</string>
     <string name="validatehiringbasis">Please Select Hiring Basis</string>
     <string name="validatehirecharges">Please Enter Hire Charges</string>
     <string name="validateadvace">Please Select Do you get advance from farmers</string>
@@ -1002,4 +1002,30 @@
     <string name="quickpay_details">త్వరిత చెల్లింపు వివరములు</string>
     <string name="collectionsdetails">గెలల సేకరణ వివరములు</string>
     <string name="ffbratenorthere"><![CDATA[<p>మీ యొక్క గెలల సేకరణలలో  ఒక సేకరణకు <b>త్వరిత చెల్లింపు ధర</b> లేనందున, ఈ త్వరిత చెల్లింపు అభ్యర్ధన నమోదుచేయబడదు</p>]]></string>
+    <string name="trans_type">రవాణా టైపు</string>
+    <string name="vehicle_type">వాహనము రకము</string>
+    <string name="fromlocation">సరఫరా ఏ  ప్రదేశమునుండి </string>
+    <string name="tolocation">సరఫరా చేయవలసిన ప్రదేశము </string>
+    <string name="transportprice">రవాణా చార్జీలు </string>
+    <string name="str_select_plots">ప్లాట్ నంబరు /ప్లాట్ నంబర్స్ </string>
+    <string name="Validtransport">రవాణా రకమును ఎంచుకోండి </string>
+    <string name="Validlist">ప్లాటు నంబరును ఎంచుకోండి </string>
+    <string name="validatefromlocation">సరఫరా ఏ  ప్రదేశమునుండో ఎంచుకోండి </string>
+    <string name="validatetolocation">సరఫరా ఏ  ప్రదేశమునకు చేయాలో ఎంచుకోండి  </string>
+    <string name="validatevehiclenumber">వాహనము నంబరు ఎంటరు చేయండి </string>
+    <string name="validatedrivername">వాహనము డ్రైవరు పేరు ఎంటరు చేయండి </string>
+    <string name="tranportprice">రవాణా ఛార్జిని ఎంటరు చేయండి </string>
+    <string name="success_transport">రవాణా రిక్వెస్ట్ పూర్తీ ఐనది</string>
+    <string name="validatevehiclenumber1">వాహనము నంబరు ఎంటరు చేయగలరు </string>
+    <string name="str_selected_plots">ఎంచుకున్న ప్లాట్(లు)</string>
+    <string name="farmer_namewithcode">ఎంచుకున్న  ప్లాట్ నంబర్లు  </string>
+    <string name="transportservice">రవాణా సర్వీసు</string>
+    <string name="transportTprice">Transport Cost(Rs)</string>
+    <string name="transgst">Transport GST(Rs)</string>
+    <string name="totaltransportcost">Total Transport Amount (Rs)</string>
+    <string name="transamount">Transport Amount(Rs)</string>
+    <string name="tsgst_amount">Transport SGST (Rs)</string>
+    <string name="tcgst_amount">Transport CGST (Rs)</string>
+    <string name="trnstotal_amt">Total Transport  Amount (Rs)</string>
+
 </resources>

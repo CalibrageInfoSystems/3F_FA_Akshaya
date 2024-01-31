@@ -5,22 +5,6 @@
     android:versionCode="18"
     android:versionName="18.0">
 
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="true" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.STORAGE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-
     <application
         android:allowBackup="false"
         android:icon="@drawable/ic_logo"
@@ -31,7 +15,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity android:name=".Views.Activities.bioproducts_list"></activity>
+        <activity
+            android:name=".Views.Activities.TransportplotActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Views.Activities.TransportActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Views.Activities.bioproducts_list" />
         <activity android:name=".Views.Activities.BioLabProducts" />
         <activity android:name=".Views.transport.FarmerTransportServiceActivity" />
         <activity android:name=".Views.Activities.QRScanner_Activity" />
@@ -137,5 +129,20 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
 </manifest>

@@ -46,12 +46,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import in.calibrage.AkshayaFA.Model.Product_new;
+import in.calibrage.AkshayaFA.Model.SelectedProducts;
 import in.calibrage.AkshayaFA.R;
 
 
@@ -68,6 +71,7 @@ import in.calibrage.AkshayaFA.R;
 
 public class CommonUtil {
     public static ArrayList<Product_new> Productitems;
+    public static ArrayList<SelectedProducts> FertProductitems;
 
     public  ArrayList<Product_new> getProductitems() {
         return Productitems;
@@ -588,5 +592,22 @@ float Calculate_GST(float org_cost, float N_price)
         else
             return false;
 
+    }
+
+
+
+
+    //Avoids Duplicates in ArrayList
+    public static List<String> ignoreDuplicatedInArrayList(List<String> inputList) {
+        if (null != inputList && !inputList.isEmpty()) {
+            Set<String> hs = new HashSet<>();
+            hs.addAll(inputList);
+            inputList.clear();
+            inputList.addAll(hs);
+        }
+        if (null == inputList) {
+            inputList = new ArrayList<>();
+        }
+        return inputList;
     }
 }

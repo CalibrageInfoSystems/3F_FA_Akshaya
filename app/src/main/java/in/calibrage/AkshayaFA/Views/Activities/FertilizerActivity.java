@@ -1,12 +1,12 @@
 package in.calibrage.AkshayaFA.Views.Activities;
 
-import android.animation.Animator;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.text.TextUtils;
@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -51,6 +52,7 @@ import java.util.List;
 import in.calibrage.AkshayaFA.Adapter.ModelFertAdapterNew;
 import in.calibrage.AkshayaFA.Model.ModelFert;
 import in.calibrage.AkshayaFA.Model.Product_new;
+import in.calibrage.AkshayaFA.Model.SelectedProducts;
 import in.calibrage.AkshayaFA.R;
 import in.calibrage.AkshayaFA.common.BaseActivity;
 import in.calibrage.AkshayaFA.common.CircleAnimationUtil;
@@ -65,8 +67,9 @@ public class FertilizerActivity extends BaseActivity implements  ModelFertAdapte
 
     private RecyclerView recyclerView;
     private ModelFertAdapterNew adapter;
-
+    Double total_amount,Transport_amount;
     String amount;
+    static ArrayList<SelectedProducts> myProductsList = new ArrayList<>();
     String dis_price, Farmer_code;
     final Context context = this;
     Button button, btn_next;
@@ -75,18 +78,17 @@ public class FertilizerActivity extends BaseActivity implements  ModelFertAdapte
     private List<ModelFert> product_list = new ArrayList<>();
     private ProgressDialog dialog;
     int SPLASH_DISPLAY_DURATION = 500;
-Double total_amount;
+    private Toolbar toolbar;
     private ImageView cartButtonIV;
     Integer Id, quantity;
     int price_final;
     int Count=0;
     int Godown_id;
+    LinearLayout lyt_cart;
     String Godown_code,Godown_name;
     DecimalFormat dec = new DecimalFormat("####0.00");
     //code_godown
-    private Toolbar toolbar;
-
-    LinearLayout lyt_cart;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +108,7 @@ Double total_amount;
         lyt_cart =findViewById(R.id.lyt_cart);
         cartButtonIV = findViewById(R.id.cartButtonIV);
         settoolbar();
-//        ImageView backImg = (ImageView) findViewById(R.id.back);
+        //  ImageView backImg = (ImageView) findViewById(R.id.back);
 //        backImg.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -114,7 +116,6 @@ Double total_amount;
 //                finish();
 //            }
 //        });
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             Godown_code = extras.getString("code_godown");
@@ -122,9 +123,11 @@ Double total_amount;
             Godown_id= extras.getInt("id_godown");
             Godown_name = extras.getString("name_godown");
 
+
+
         }
         SharedPreferences pref = getSharedPreferences("FARMER", MODE_PRIVATE);
-        Farmer_code = pref.getString("farmerid", "");       // Saving string data of your editext
+        Farmer_code = pref.getString("farmerid", "").trim();       // Saving string data of your editext
 
         recyclerView = (RecyclerView) findViewById(R.id.fer_recycler_view);
         mealTotalText = (TextView) findViewById(R.id.meal_total);
@@ -138,9 +141,11 @@ Double total_amount;
             Getstate();
         else {
             showDialog(FertilizerActivity.this,getResources().getString(R.string.Internet));
+            btn_next.setBackground(this.getDrawable(R.drawable.button_bg_disable));
+            btn_next.setEnabled(false);
             //Toast.makeText(LoginActivity.this, "Please Check Internet Connection ", Toast.LENGTH_SHORT).show();
         }
-       // Getstate();
+        // Getstate();
         cartButtonIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,12 +154,7 @@ Double total_amount;
                     if (myProductsList.size() > 0 & !TextUtils.isEmpty(mealTotalText.getText()) & mealTotalText.getText()!= "" ) {
 
                         Intent i = new Intent(FertilizerActivity.this, Fert_godown_list.class);
-                        i.putExtra("Total_amount", mealTotalText.getText());
-                        i.putExtra("godown_id",Godown_id);
-                        i.putExtra("godown_code",Godown_code);
-                        i.putExtra("godown_name",Godown_name);
-
-                        startActivity(i);
+                           startActivity(i);
                         overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                     }
                     else{
@@ -177,6 +177,7 @@ Double total_amount;
 
                         Intent i = new Intent(FertilizerActivity.this, Fert_godown_list.class);
                         i.putExtra("Total_amount", mealTotalText.getText());
+                        i.putExtra("Transport_amount",dec.format(Transport_amount) );
                         i.putExtra("godown_id",Godown_id);
                         i.putExtra("godown_code",Godown_code);
                         i.putExtra("godown_name",Godown_name);
@@ -205,7 +206,7 @@ Double total_amount;
 
     private void settoolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Product Request");
+        toolbar.setTitle("Select Godown");
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_left);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -218,6 +219,7 @@ Double total_amount;
             }
         });
     }
+
 
     private void Getstate() {
         dialog.setMessage("Loading, please wait....");
@@ -244,9 +246,9 @@ Double total_amount;
                         JSONArray kl = jsonObject.getJSONArray("listResult");
                         Log.d("kl==============", String.valueOf(kl));
                         parseData(kl);
-                            recyclerView.setVisibility(View.VISIBLE);
-                            no_data.setVisibility(View.GONE);
-                            Log.e("no==data==208","No data");
+                        recyclerView.setVisibility(View.VISIBLE);
+                        no_data.setVisibility(View.GONE);
+                        Log.e("no==data==208","No data");
 
                         // parseData(alsoKnownAsArray);
 
@@ -302,31 +304,28 @@ Double total_amount;
 
         for (int i = 0; i < array.length(); i++) {
 
-            ModelFert superHero = new ModelFert();
+            ModelFert Fertdetails = new ModelFert();
             JSONObject json = null;
 
             try {
                 json = array.getJSONObject(i);
-                superHero.setName(json.getString("name"));
-//                superHero.setDiscountedPrice(json.getDouble("actualPrice"));
-//                superHero.setmAmount(json.getString("discountedPrice"));
-//                superHero.setPrice(json.getInt("price"));
-                superHero.setDiscountedPrice(json.getDouble("actualPriceInclGST"));
-                superHero.setmAmount(json.getString("discountedPriceInclGST"));
-                superHero.setPrice(json.getInt("priceInclGST"));
-                superHero.setImageUrl(json.getString("imageUrl"));
-                superHero.setDescription(json.getString("description"));
-                int size = json.getInt("size");
+                Fertdetails.setName(json.getString("name"));
+
+
+                Fertdetails.setDiscountedPrice(json.getDouble("actualPriceInclGST"));
+                Fertdetails.setmAmount(json.getString("discountedPriceInclGST"));
+                Fertdetails.setPrice(json.getInt("priceInclGST"));
+                Fertdetails.setImageUrl(json.getString("imageUrl"));
+                Fertdetails.setDescription(json.getString("description"));
+                Fertdetails.setTransPortActualPriceInclGST(json.getDouble("transPortActualPriceInclGST"));
+                Fertdetails.setTransportGSTPercentage(json.getDouble("transportGSTPercentage"));
+                double size = json.getDouble("size");
                 Log.d(TAG, "--- Size ----" + size);
-//
-                superHero.setSize(size);
-
-
-                superHero.setId(json.getInt("id"));
-                superHero.setUomType(json.getString("uomType"));
-                superHero.setAvail_quantity(json.getInt("availableQuantity"));
-                superHero.setProduct_code(json.getString("code"));
-
+                Fertdetails.setSize(size);
+                Fertdetails.setId(json.getInt("id"));
+                Fertdetails.setUomType(json.getString("uomType"));
+                Fertdetails.setAvail_quantity(json.getInt("availableQuantity"));
+                Fertdetails.setProduct_code(json.getString("code"));
                 Log.e("uom===", json.getString("uomType"));
                 int price_finall = json.getInt("price");
                 Log.e("price_final====", String.valueOf(price_finall));
@@ -334,19 +333,18 @@ Double total_amount;
                 Log.e("final_price====", String.valueOf(final_price));
                 dis_price = json.getString("discountedPrice");
                 Log.e("dis_price====", dis_price);
-
                 String gst =json.getString("gstPercentage");
                 Log.e("gst====", String.valueOf(gst));
 
-if( String.valueOf(gst)!= null) {
-    superHero.setgst(gst);
-}
+                if( String.valueOf(gst)!= null) {
+                    Fertdetails.setgst(gst);
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            product_list.add(superHero);
+            product_list.add(Fertdetails);
 
             adapter = new ModelFertAdapterNew(product_list, this, this);
             Log.d(TAG, "listSuperHeroes======" + product_list);
@@ -359,32 +357,39 @@ if( String.valueOf(gst)!= null) {
 
 
 
-
+//    @Override
+//    public void setOnClickAckListener(String status, int position, Boolean ischecked, NetworkImageView img) {
+//
+//    }
 
     @Override
-    public void updated(int po, ArrayList<Product_new> myProducts) {
-        SharedPrefsData.saveCartitems(context,myProducts);
+    public void updated(int po, ArrayList<SelectedProducts> myProducts) {
+        SharedPrefsData.saveFertCartitems(context,myProducts);
 
 
         myProductsList = myProducts;
-        CommonUtil.Productitems =myProductsList;
+        CommonUtil.FertProductitems =myProductsList;
         Double allitemscost = 0.0;
+        Double totaltransportcost = 0.0;
         int allproducts = 0;
 
-        for (Product_new product : myProducts) {
+
+        for (SelectedProducts product : myProducts) {
             Double oneitem = product.getQuandity() * (product.getWithGSTamount());
             allitemscost = oneitem + allitemscost;
             Log.d("Product", "total Proce :" + allitemscost);
             int onitem = product.getQuandity();
             allproducts = allproducts + onitem;
             Log.d("Product", "totalitems :" + allproducts);
-
-
+            Double onetransfortitem = product.getQuandity() * (product.getTranportPrice());
+            totaltransportcost = onetransfortitem + totaltransportcost;
         }
         txt_count.setText(allproducts + "");
-        total_amount = (allitemscost * 100) / 100;
+        // total_amount = Math.round(allitemscost * 100D) / 100D;
 
-        Log.e("valueRounded===",total_amount+"");
+        total_amount = (allitemscost * 100) / 100;
+        Transport_amount = (totaltransportcost * 100) / 100;
+        Log.e("valueRounded===",totaltransportcost+"");
         mealTotalText.setText(dec.format(total_amount));
     }
 
@@ -433,35 +438,6 @@ if( String.valueOf(gst)!= null) {
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
-    private void makeFlyAnimation(ImageView targetView) {
 
-        // RelativeLayout destView = (RelativeLayout) findViewById(R.id.cartRelativeLayout);
-        ImageView destView = findViewById(R.id.cartButtonIV);
-
-        new CircleAnimationUtil().attachActivity(this).setTargetView(targetView).setCircleDuration(500).setMoveDuration(800).setDestView(destView).setAnimationListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                //  addItemToCart();
-                // Toast.makeText(MainActivity.this, "Continue Shopping...", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        }).startAnimation();
-
-
-    }
 
 }

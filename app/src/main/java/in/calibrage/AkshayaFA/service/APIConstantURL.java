@@ -2,9 +2,11 @@ package in.calibrage.AkshayaFA.service;
 
 public interface APIConstantURL {
 
-//public static  final  String LOCAL_URL="http://103.241.144.240:9096/api/";
+//public static  final  String LOCAL_URL="https://3fakshaya.com/api/";
 //public static  final  String LOCAL_URL="http://103.241.144.240:9098/api/";
-public static  final  String LOCAL_URL="http://183.82.111.111/3FFarmerAPI/api/";
+
+public static  final String LOCAL_URL="http://182.18.157.215/3FAkshaya/API/api/";//test local
+
     //String LookUpCategory = "GetActiveLookUp/9";
     String Login = "User/Login";
     String banner ="Banner";
@@ -86,5 +88,7 @@ public static  final  String LOCAL_URL="http://183.82.111.111/3FFarmerAPI/api/";
     String AddVendorTransportation = "TransportationService/AddVendorTransportation";
 //   http://183.82.111.111/3FFarmerAPI/api/LabourRequest/GetLabourTermsandConditions/null
 
-
+    String GetTransporttype= "TypeCdDmt/29";
+    String GetClusters = "User/GetClustersByUserId/";
+    String AddTransportRequest = "AddTransportRequest";
 }

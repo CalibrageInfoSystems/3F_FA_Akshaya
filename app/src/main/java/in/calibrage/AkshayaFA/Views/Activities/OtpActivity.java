@@ -258,6 +258,7 @@ public class OtpActivity extends BaseActivity {
                                         startActivity(intent);
                                         finish();
                                     }
+
 //                                    if (Requested_type.contains("Labour Request")) {
 //                                        Intent intent = new Intent(getApplicationContext(), LabourRecommendationsActivity.class);
 //                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -273,30 +274,6 @@ public class OtpActivity extends BaseActivity {
                                     GetServicesByStateCode(statecode,Statename);
 
 
-//                                    if (Requested_type.contains("QuickPay")) {
-//                                        Intent intent = new Intent(getApplicationContext(), QuickPayActivity.class);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                                        startActivity(intent);
-//                                        finish();
-//                                    }
-//                                    if (Requested_type.contains("Visit")) {
-//                                        Intent intent = new Intent(getApplicationContext(), RequestVisitActivity.class);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                                        startActivity(intent);
-//                                        finish();
-//                                    }
-//                                    if (Requested_type.contains("Loan")) {
-//                                        Intent intent = new Intent(getApplicationContext(), LoanActivity.class);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                                        startActivity(intent);
-//                                        finish();
-//                                    }
                                 }
 
                             }, 000);
@@ -366,8 +343,17 @@ public class OtpActivity extends BaseActivity {
                                     startActivity(intent);
                                     finish();
                                 }
-                              else  if (Requested_type.contains("Loan")&& getServicesByStateCode.getListResult().get(i).getServiceTypeId() == 28) {
+                              else  if (Requested_type.contains("Loan") && getServicesByStateCode.getListResult().get(i).getServiceTypeId() == 28) {
                                     Intent intent = new Intent(getApplicationContext(), LoanActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    startActivity(intent);
+                                    finish();
+
+                                }
+                                else  if (Requested_type.contains("Transport") && getServicesByStateCode.getListResult().get(i).getServiceTypeId() == 108) {
+                                    Intent intent = new Intent(getApplicationContext(), TransportplotActivity  .class);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

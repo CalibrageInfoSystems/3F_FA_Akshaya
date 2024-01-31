@@ -219,7 +219,7 @@
                 android:fontFamily="@font/hind_semibold"
                 android:id="@+id/plot_District"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                  android:layout_height="wrap_content"
                 android:layout_below="@id/plot_State"
                 android:text="@string/Cgst"
                 android:paddingBottom="@dimen/songs_count_padding_bottom"
@@ -228,14 +228,18 @@
                 android:paddingRight="2dp"
                 android:paddingTop="@dimen/album_title_padding"
                 android:textSize="@dimen/songs_count" />
+
             <ImageView
                 android:id="@+id/overflow"
                 android:layout_width="@dimen/ic_album_overflow_width"
                 android:layout_height="@dimen/ic_album_overflow_height"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
+                android:layout_marginStart="-10dp"
+                android:layout_marginTop="-10dp"
+                android:layout_marginEnd="-10dp"
+                android:layout_marginBottom="-10dp"
                 android:scaleType="centerCrop"
-                android:layout_margin="-10dp"
                 android:src="@drawable/arrow_right" />
             <TextView
                 android:fontFamily="@font/hind_semibold"

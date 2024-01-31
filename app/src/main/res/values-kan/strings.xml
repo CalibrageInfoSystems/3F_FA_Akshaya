@@ -561,7 +561,7 @@
     <string name="Valid_mandal">Please Select Mandal(s)</string>
     <string name="Valid_state">Please Select State</string>
     <string name="enternumofvehicle">Please Enter No of Vehicles</string>
-    <string name="validatevehicletype">Please Select Vehicle Type</string>
+    <string name="validatevehicletype">ದಯವಿಟ್ಟು ವಾಹನದ ಪ್ರಕಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="validatehiringbasis">Please Select Hiring Basis</string>
     <string name="validatehirecharges">Please Enter Hire Charges</string>
     <string name="validateadvace">Please Select Do you get advance from farmers</string>
@@ -606,6 +606,32 @@
     <string name="quickpay_details">ತ್ವರಿತ ವೇತನ ವಿವರಗಳು</string>
     <string name="collectionsdetails">ಸಂಗ್ರಹ ವಿವರಗಳು</string>
     <string name="ffbratenorthere"><![CDATA[<p>ನಿಮ್ಮ ಸಂಗ್ರಹಣೆಗಳಲ್ಲಿ ಒಂದು <b>ತ್ವರಿತ ವೇತನ ದರವನ್ನು</b> ಹೊಂದಿಲ್ಲ. ತ್ವರಿತ ವೇತನ ವಿನಂತಿಯನ್ನು ಹೆಚ್ಚಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ</p>]]></string>
+
+    <string name="transportservice">ಸಾರಿಗೆ ಸೇವೆ</string>
+    <string name="trans_type">ಸಾರಿಗೆ ಪ್ರಕಾರ</string>
+    <string name="vehicle_type">ವಾಹನದ ಪ್ರಕಾರ</string>
+    <string name="fromlocation">ಸ್ಥಳದಿಂದ</string>
+    <string name="tolocation">ಸ್ಥಳಕ್ಕೆ</string>
+    <string name="transportprice">ಸಾರಿಗೆ ಬೆಲೆ (ರೂ)</string>
+    <string name="str_select_plots">ಪಪ್ಲಾಟ್(ಎಸ್) ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="Validtransport">ದಯವಿಟ್ಟು ಸಾರಿಗೆ ಪ್ರಕಾರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="Validlist">ದಯವಿಟ್ಟು ಕನಿಷ್ಠ ಒಂದು ಪ್ಲಾಟ್  ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="validatefromlocation">ದಯವಿಟ್ಟು ಸ್ಥಳದಿಂದ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="validatetolocation">ದಯವಿಟ್ಟು ಸ್ಥಳಕ್ಕೆ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="validatevehiclenumber">ದಯವಿಟ್ಟು ವಾಹನದ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="validatedrivername">ದಯವಿಟ್ಟು ಚಾಲಕ ಹೆಸರನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="tranportprice">ದಯವಿಟ್ಟು ಸಾರಿಗೆ ಬೆಲೆಯನ್ನು ನಮೂದಿಸಿ (ರೂ.)</string>
+    <string name="success_transport">ಸಾರಿಗೆ ವಿನಂತಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಸೇರಿಸಲಾಗಿದೆ</string>
+    <string name="validatevehiclenumber1">ದಯವಿಟ್ಟು ಮಾನ್ಯವಾದ ವಾಹನ ಸಂಖ್ಯೆಯನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="str_selected_plots">ಆಯ್ದ ಪ್ಲಾಟ್(ಗಳು)</string>
+    <string name="farmer_namewithcode">ರೈತ ಹೆಸರು (ರೈತ ಕೋಡ್)</string>
+    <string name="transportTprice">Transport Cost(Rs)</string>
+    <string name="transgst">Transport GST(Rs)</string>
+    <string name="totaltransportcost">Total Transport Amount (Rs)</string>
+    <string name="transamount">Transport Amount(Rs)</string>
+    <string name="tsgst_amount">Transport SGST (Rs)</string>
+    <string name="tcgst_amount">Transport CGST (Rs)</string>
+    <string name="trnstotal_amt">Total Transport  Amount (Rs)</string>
 
     <!-- we need to use video ids instead of video link -->
     <string-array name="switch_tabs">

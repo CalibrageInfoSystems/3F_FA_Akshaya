@@ -15,6 +15,7 @@ import in.calibrage.AkshayaFA.Model.FarmerOtpResponceModel;
 import in.calibrage.AkshayaFA.Model.GetBankDetailsByFarmerCode;
 import in.calibrage.AkshayaFA.Model.LoginResponse;
 import in.calibrage.AkshayaFA.Model.Product_new;
+import in.calibrage.AkshayaFA.Model.SelectedProducts;
 
 
 public class SharedPrefsData {
@@ -257,6 +258,33 @@ public class SharedPrefsData {
         return obj;
 
     }
+
+    public static void saveFertCartitems(Context mContext, ArrayList<SelectedProducts> myProducts) {
+        Gson gson = new Gson();
+
+        if (mContext != null) {
+            String json = gson.toJson(myProducts);
+            SharedPreferences profilePref = mContext.getSharedPreferences(FF_DATA, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = profilePref.edit();
+            editor.putString("cart", json);
+
+            // Commit the edits!
+            editor.apply();
+
+        }
+    }
+
+    public static ArrayList<SelectedProducts> getFertCartData(Context mContext) {
+        Gson gson = new Gson();
+        SharedPreferences profilePref = mContext.getSharedPreferences(FF_DATA,
+                Context.MODE_PRIVATE);
+        String json = profilePref.getString("cart", "");
+        Type type = new TypeToken<List<SelectedProducts>>() {
+        }.getType();
+        ArrayList<SelectedProducts> obj = gson.fromJson(json, type);
+        return obj;
+    }
+
     public static String getusername(Context ctx) {
         String middlename = SharedPrefsData.getCatagories(ctx).getResult().getFarmerDetails().get(0).getMiddleName()+"";
         String finalmiddlename = "";

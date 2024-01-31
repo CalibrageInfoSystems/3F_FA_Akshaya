@@ -1270,7 +1270,9 @@ public class LabourActivity extends BaseActivity implements MultiSelectionSpinne
     }
 
 
-    private JsonObject LabourReuestobject() {
+    private JsonObject LabourReuestobject()
+
+    {
         finalAmount = getAmount();
 //        Log.d(TAG, "----- analysis ----->> GetAmount -->> Amount :" + finalAmount);
 //        String statecode = SharedPrefsData.getInstance(this).getStringFromSharedPrefs("statecode");

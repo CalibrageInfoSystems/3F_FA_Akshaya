@@ -104,7 +104,9 @@ public class Farmar_Login extends BaseActivity {
                     editor.commit();
                     if (isOnline()) {
                         if (Request_Type.equalsIgnoreCase("special") || Request_Type.equalsIgnoreCase("Labour Request") ||
-                                Request_Type.equalsIgnoreCase("Collection") || Request_Type.equalsIgnoreCase("Fertilizer") || Request_Type.equalsIgnoreCase("Equipment")|| Request_Type.equalsIgnoreCase("BioLab")) {
+                                Request_Type.equalsIgnoreCase("Collection") || Request_Type.equalsIgnoreCase("Fertilizer") ||
+                                Request_Type.equalsIgnoreCase("Equipment")|| Request_Type.equalsIgnoreCase("BioLab")
+                        ) {
 
                             specialmethod();
 
@@ -320,59 +322,6 @@ public class Farmar_Login extends BaseActivity {
                                 finish();
                             }
 
-//                            if(Request_Type.equalsIgnoreCase("special")) {
-//         new Handler().postDelayed(new Runnable() {
-//        @Override
-//        public void run() {
-//            /* Create an Intent that will start the Menu-Activity. */
-//            Intent i = new Intent(Farmar_Login.this, unpaidcollections.class);
-//            ;
-//            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            i.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//            startActivity(i);
-//            overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-//
-//            finish();
-//        }
-//    }, 300);
-//}
-//                            if(Request_Type.equalsIgnoreCase("Labour Request")){
-//                            Intent intent = new Intent(getApplicationContext(), LabourRecommendationsActivity.class);
-//                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                            startActivity(intent);
-//                            finish();
-//
-//                        }
-//                            if (Request_Type.equalsIgnoreCase("Collection")) {
-//                                Intent intent = new Intent(getApplicationContext(), CollectionsActivity.class);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                                startActivity(intent);
-//                                finish();
-//                            }
-//                            if (Request_Type.equalsIgnoreCase("Fertilizer")) {
-//                                Intent intent = new Intent(getApplicationContext(), Godown_list.class);
-//                                intent.putExtra("godown","fert");
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                                startActivity(intent);
-//                                finish();
-//                            }
-//
-//                            if (Request_Type.equalsIgnoreCase("Equipment")) {
-//                                Intent intent = new Intent(getApplicationContext(), Godown_list.class);
-//                                intent.putExtra("godown","pole");
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//                                startActivity(intent);
-//                                finish();
-//                            }
                         }
                         else{
                             showDialog(Farmar_Login.this, getResources().getString(R.string.Invalid));
@@ -454,7 +403,7 @@ public class Farmar_Login extends BaseActivity {
                                     finish();
                                 }
 
-
+//
 
 //                                if(Request_Type.equalsIgnoreCase("special")&& getServicesByStateCode.getListResult().get(i).getServiceTypeId() == 13) {
 //                                    Intent intent = new Intent(getApplicationContext(), Godown_list.class);

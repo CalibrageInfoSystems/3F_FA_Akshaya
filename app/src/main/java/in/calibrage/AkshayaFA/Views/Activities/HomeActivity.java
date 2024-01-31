@@ -31,7 +31,7 @@ import in.calibrage.AkshayaFA.localData.SharedPrefsData;
 import static in.calibrage.AkshayaFA.common.CommonUtil.updateResources;
 
 public class HomeActivity extends AppCompatActivity {
-CardView Labour,pole,fertilizer,loan,visit,quickpay,collections,payments,crop,special_button,vendorservy_button,farmerservey_button, bioLab;
+CardView Labour,pole,fertilizer,loan,visit,quickpay,collections,payments,crop,special_button,vendorservy_button,farmerservey_button, bioLab,trans_button;
 ImageView logout,ic_request;
 TextView dialogMessage;
     boolean doubleBackToExitPressedOnce = false;
@@ -74,6 +74,7 @@ TextView dialogMessage;
         vendorservy_button=findViewById( R.id.vendorservy_button);
         farmerservey_button=findViewById( R.id.farmerservey_button);
         bioLab=findViewById(R.id.bioLab_button);
+        trans_button=findViewById( R.id.trans_button);
     //    ic_request=findViewById( R.id.ic_request);
        // special_payl = findViewById(R.id.special_payl);
         //spe_border = findViewById(R.id.spe_border);
@@ -216,6 +217,16 @@ TextView dialogMessage;
 //                Intent intent = new Intent(HomeActivity.this, Transport_service_questioner_farmer.class);
                 Intent intent = new Intent(HomeActivity.this, FarmerTransportServiceActivity.class);
 
+                startActivity(intent);
+
+            }
+        });
+
+        trans_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, Farmar_Login.class);
+         intent.putExtra("RequestType","Transport");
                 startActivity(intent);
 
             }

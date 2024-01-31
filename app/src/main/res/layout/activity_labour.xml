@@ -71,13 +71,13 @@
             android:id="@+id/plotIdLabel"
             android:layout_width="@dimen/_150dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/hind_semibold"
             android:paddingLeft="@dimen/album_title_padding"
             android:paddingRight="@dimen/album_title_padding"
             android:text="@string/plot_code"
             android:textColor="@color/black"
             android:textSize="@dimen/album_title"
             android:textStyle="bold"
-            android:fontFamily="@font/hind_semibold"
 
             />
 

@@ -230,6 +230,8 @@ public class FarmerTransportServiceActivity extends BaseActivity implements More
 
 
     private void bind() {
+
+
         created_user = SharedPrefsData.getCreatedUser(FarmerTransportServiceActivity.this);
         _farmerAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

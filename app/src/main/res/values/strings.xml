@@ -1073,6 +1073,34 @@
     <string name="tansportation_note">Unless Plot is declared during FFB Collection, all plots average transport rate is calculated based on age,size, &amp; Expected FFB.</string>
     <string name="transportationrates">Transportation Rates</string>
     <string name="rate">Rate per Ton (Rs)</string>
+
+    <string name="transportservice">Transport Service</string>
+    <string name="trans_type">Transport Type</string>
+    <string name="vehicle_type">Vehicle Type</string>
+    <string name="fromlocation">From Location </string>
+    <string name="tolocation">To Location </string>
+    <string name="transportprice">Transport Price (Rs.)</string>
+    <string name="str_select_plots">Select Plot(s)</string>
+    <string name="Validtransport">Please Select Transport Type</string>
+    <string name="Validlist">Please Select At least One Plot</string>
+    <string name="validatefromlocation">Please Select From Location</string>
+    <string name="validatetolocation">Please Select To Location</string>
+    <string name="validatevehiclenumber">Please Enter  Vehicle Number</string>
+    <string name="validatedrivername">Please Enter  Driver Name</string>
+    <string name="tranportprice">Please Enter Transport Price(Rs.)</string>
+    <string name="success_transport">Transport Request Added Successfully</string>
+    <string name="validatevehiclenumber1">Please Enter Valid Vehicle Number</string>
+    <string name="str_selected_plots">Selected Plot(s)</string>
+    <string name="farmer_namewithcode">Farmer Name (Farmer Code)</string>
+
+    <string name="transportTprice">Transport Cost(Rs)</string>
+    <string name="transgst">Transport GST(Rs)</string>
+    <string name="totaltransportcost">Total Transport Amount (Rs)</string>
+    <string name="transamount">Transport Amount(Rs)</string>
+    <string name="tsgst_amount">Transport SGST (Rs)</string>
+    <string name="tcgst_amount">Transport CGST (Rs)</string>
+    <string name="trnstotal_amt">Total Transport  Amount (Rs)</string>
+
     <string-array name="switch_tabs">
 
         <item>@string/fertgodown</item>

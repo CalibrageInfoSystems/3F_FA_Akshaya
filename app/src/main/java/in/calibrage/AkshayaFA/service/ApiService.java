@@ -64,12 +64,16 @@ import in.calibrage.AkshayaFA.Model.Resproduct;
 import in.calibrage.AkshayaFA.Model.Resquickpay;
 import in.calibrage.AkshayaFA.Model.SubsidyResponse;
 
+import in.calibrage.AkshayaFA.Model.TransportResp;
+import in.calibrage.AkshayaFA.Model.Transportobject;
+import in.calibrage.AkshayaFA.Model.UserClusters;
 import in.calibrage.AkshayaFA.Model.VendorTransportationResponse;
 
 import in.calibrage.AkshayaFA.Model.VehicleTypeResponse;
 
 import in.calibrage.AkshayaFA.Model.VisitresponseModel;
 import in.calibrage.AkshayaFA.Model.labour_req_response;
+import in.calibrage.AkshayaFA.Model.resGet3FInfo;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -151,7 +155,8 @@ public interface ApiService {
     @POST(APIConstantURL.getFarmerById)
     Observable<GetFarmerByIdResponse> getFarmerByIdpage(@Body JsonObject data);
 
-
+    @GET
+    Observable<resGet3FInfo> get3finfo(@Url String url);
 
     @GET
     Observable<GetVisitRequestRepository> getimages(@Url String url);
@@ -313,6 +318,7 @@ public interface ApiService {
 
     @POST(APIConstantURL.addFarmerTransportation)
     Observable<AddFarmerTransportationResponse> addFarmerTransportationpage(@Body JsonObject data);
+
     @POST(APIConstantURL.AddVendorTransportation)
 
     Observable<VendorTransportationResponse>VendorTransportation(@Body JsonObject data);
@@ -322,4 +328,10 @@ public interface ApiService {
 
     @GET
     Observable<Getdestinations> getcc(@Url String url);
+    @GET
+    Observable<UserClusters> getclusters(@Url String url);
+
+    @POST(APIConstantURL.AddTransportRequest)
+    Observable<TransportResp> postTransportRequest(@Body JsonObject data);
+
 }
