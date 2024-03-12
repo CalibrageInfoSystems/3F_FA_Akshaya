@@ -104,7 +104,7 @@ public class Farmar_Login extends BaseActivity {
                     editor.commit();
                     if (isOnline()) {
                         if (Request_Type.equalsIgnoreCase("special") || Request_Type.equalsIgnoreCase("Labour Request") ||
-                                Request_Type.equalsIgnoreCase("Collection") || Request_Type.equalsIgnoreCase("Fertilizer") ||
+                                Request_Type.equalsIgnoreCase("Collection") || Request_Type.equalsIgnoreCase("Fertilizer") || Request_Type.equalsIgnoreCase("edibleoil") ||
                                 Request_Type.equalsIgnoreCase("Equipment")|| Request_Type.equalsIgnoreCase("BioLab")
                         ) {
 
@@ -402,7 +402,15 @@ public class Farmar_Login extends BaseActivity {
                                     startActivity(intent);
                                     finish();
                                 }
-
+                                else if (Request_Type.equalsIgnoreCase("edibleoil")&& getServicesByStateCode.getListResult().get(i).getServiceTypeId() == 116) {
+                                    Intent intent = new Intent(getApplicationContext(), Godown_list.class);
+                                    intent.putExtra("godown", "edible_oil");
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    startActivity(intent);
+                                    finish();
+                                }
 //
 
 //                                if(Request_Type.equalsIgnoreCase("special")&& getServicesByStateCode.getListResult().get(i).getServiceTypeId() == 13) {

@@ -50,6 +50,7 @@ import in.calibrage.AkshayaFA.Model.FertResponse;
 import in.calibrage.AkshayaFA.Model.LoginResponse;
 import in.calibrage.AkshayaFA.Model.MSGmodel;
 import in.calibrage.AkshayaFA.Model.PaymentsType;
+import in.calibrage.AkshayaFA.Model.SelectedProducts;
 import in.calibrage.AkshayaFA.Model.SubsidyResponse;
 import in.calibrage.AkshayaFA.Model.product;
 import in.calibrage.AkshayaFA.R;
@@ -125,6 +126,8 @@ public class Fert_godown_list extends BaseActivity {
     String state_name;
     private PinEntryEditText pinEntry;
     Button dialogButton;
+    LoginResponse created_user;
+    private Integer User_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -396,6 +399,8 @@ public class Fert_godown_list extends BaseActivity {
     //Fertilizer submit  API Requests
     private void FertilizerRequest() {
         mdilogue.show();
+        btn_submit.setEnabled(false);
+        btn_submit.setBackgroundResource(R.drawable.button_bg_disable);
         JsonObject object = fertReuestobject();
         ApiService service = ServiceFactory.createRetrofitService(this, ApiService.class);
         mSubscription = service.postfert(object)
@@ -442,11 +447,11 @@ public class Fert_godown_list extends BaseActivity {
 
                                     List<FertRequest.RequestProductDetail> req_products = new ArrayList<>();
 
-                                    for (int i = 0; i < SharedPrefsData.getCartData(Fert_godown_list.this).size(); i++) {
+                                    for (int i = 0; i < SharedPrefsData.getFertCartData(Fert_godown_list.this).size(); i++) {
 
 
-                                        product_name = SharedPrefsData.getCartData(getApplicationContext()).get(i).getProductname();
-                                        quantity = SharedPrefsData.getCartData(getApplicationContext()).get(i).getQuandity();
+                                        product_name = SharedPrefsData.getFertCartData(getApplicationContext()).get(i).getProductname();
+                                        quantity = SharedPrefsData.getFertCartData(getApplicationContext()).get(i).getQuandity();
                                         selected_list.add(product_name + " : " + quantity + "");
                                         selected_name = arrayyTOstring(selected_list);
                                     }
@@ -460,7 +465,7 @@ public class Fert_godown_list extends BaseActivity {
                                     displayList.add(new MSGmodel(getResources().getString(R.string.transamount),  dec.format(transport_AmountwithoutGst)));
                                     displayList.add(new MSGmodel(getResources().getString(R.string.transgst),dec.format(TransGsttotal)));
 
-                                  displayList.add(new MSGmodel(getResources().getString(R.string.totaltransportcost), Transport_amount));
+                                    displayList.add(new MSGmodel(getResources().getString(R.string.totaltransportcost), Transport_amount));
                                     //Double subAmount = subsidy_amountt- include_gst_amount dec.format(Gst_total)
                                     displayList.add(new MSGmodel(getResources().getString(R.string.subcd_amt), dec.format(Math.round(Subsidy_amount))));
 
@@ -472,11 +477,13 @@ public class Fert_godown_list extends BaseActivity {
 //                                    Log.d(TAG, "------ analysis ------ >> get selected_name in String(): " + selected_name);
 
                                     showSuccessDialog(displayList, getString(R.string.success_fertilizer));
+                                    saveEmptyCartItems();
                                 }
                             }, 300);
                         }
                         else {
-                            showDialog(Fert_godown_list.this, getString(R.string.endusermsg));
+                            //    showDialog(Fert_godown_list.this, getString(R.string.endusermsg));
+                            showDialog(Fert_godown_list.this, getString(R.string.endusermsgnew));
                         }
 
 
@@ -487,6 +494,19 @@ public class Fert_godown_list extends BaseActivity {
 
 
     }
+
+    private void saveEmptyCartItems() {
+        // Create an empty list of SelectedProducts
+        ArrayList<SelectedProducts> emptyList = new ArrayList<>();
+
+        // Save the empty list to SharedPreferences to clear the cart items
+        SharedPrefsData.saveFertCartitems(this, emptyList);
+
+        // Update myProductsList and CommonUtil.FertProductitems
+
+        CommonUtil.FertProductitems = emptyList;
+    }
+
 
     public String arrayyTOstring(List<String> arrayList) {
         StringBuilder string = new StringBuilder();
@@ -505,6 +525,10 @@ public class Fert_godown_list extends BaseActivity {
         String statecode = SharedPrefsData.getInstance(this).getStringFromSharedPrefs("statecode");
         Log.e("state===",statecode);
         FertRequest requestModel = new FertRequest();
+        created_user = SharedPrefsData.getCreatedUser(this);
+
+
+        User_id= created_user.getResult().getUserInfos().getId();
 
         requestModel.setId(0);
         requestModel.setRequestTypeId(12);
@@ -513,9 +537,9 @@ public class Fert_godown_list extends BaseActivity {
         requestModel.setPlotCode(null);
         requestModel.setRequestCreatedDate(formattedDate);
         requestModel.setIsFarmerRequest(true);
-        requestModel.setCreatedByUserId(null);
+        requestModel.setCreatedByUserId(User_id);
         requestModel.setCreatedDate(formattedDate);
-        requestModel.setUpdatedByUserId(null);
+        requestModel.setUpdatedByUserId(User_id);
         requestModel.setUpdatedDate(formattedDate);
         requestModel.setGodownId(GodownId);
         requestModel.setPaymentModeType((payment_id.get(paymentspin.getSelectedItemPosition() - 1)));

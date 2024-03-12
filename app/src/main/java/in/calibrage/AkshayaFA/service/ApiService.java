@@ -13,6 +13,7 @@ import in.calibrage.AkshayaFA.Model.FarmerOtpResponceModel;
 import in.calibrage.AkshayaFA.Model.FarmerResponceModel;
 import in.calibrage.AkshayaFA.Model.Farmersearchresponse;
 import in.calibrage.AkshayaFA.Model.FertResponse;
+import in.calibrage.AkshayaFA.Model.FertilizerSubCategories;
 import in.calibrage.AkshayaFA.Model.GetAmount;
 import in.calibrage.AkshayaFA.Model.GetBankDetailsByFarmerCode;
 import in.calibrage.AkshayaFA.Model.GetCollectionInfoById;
@@ -334,4 +335,6 @@ public interface ApiService {
     @POST(APIConstantURL.AddTransportRequest)
     Observable<TransportResp> postTransportRequest(@Body JsonObject data);
 
+    @GET
+    Observable<FertilizerSubCategories> getfertilizercategory(@Url String url);
 }

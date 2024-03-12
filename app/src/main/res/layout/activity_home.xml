@@ -443,6 +443,7 @@
 
                          <ImageView
                              style="@style/Common_image"
+                             android:layout_width="46dp"
                              android:src="@drawable/loan" />
 
                          <TextView
@@ -473,8 +474,7 @@
 
                          <ImageView
                              style="@style/Common_image"
-                             android:layout_height="39dp"
-                             android:src="@drawable/transportmoduleicon" />
+                             android:src="@drawable/transport_new" />
 
                          <TextView
                              style="@style/Common_textView"
@@ -486,7 +486,7 @@
              </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
+
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginLeft="@dimen/margin_15"
@@ -496,7 +496,77 @@
                 android:background="@drawable/line_bg"
                 android:gravity="center" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/home_View_lyt_height"
+                android:layout_weight="0.25"
+                android:weightSum="1"
+                android:gravity="center">
 
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/edibleoil_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="3dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/red"
+                    android:elevation="8dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:cardCornerRadius="6dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            style="@style/Common_image"
+                            android:layout_width="46dp"
+                            android:src="@drawable/ediableoils" />
+
+                        <TextView
+                            style="@style/Common_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/edibleoil" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/trans_button"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_margin="3dp"-->
+<!--                    android:layout_weight="0.5"-->
+<!--                    android:elevation="8dp"-->
+
+<!--                    android:gravity="center"-->
+<!--                    android:orientation="vertical"-->
+<!--                    app:cardCornerRadius="6dp">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <ImageView-->
+<!--                            style="@style/Common_image"-->
+<!--                            android:layout_height="39dp"-->
+<!--                            android:src="@drawable/transportmoduleicon" />-->
+
+<!--                        <TextView-->
+<!--                            style="@style/Common_textView"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="@string/transportservice" />-->
+<!--                    </LinearLayout>-->
+<!--                </androidx.cardview.widget.CardView>-->
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

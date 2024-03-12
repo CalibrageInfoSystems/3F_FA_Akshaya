@@ -633,6 +633,11 @@
     <string name="tcgst_amount">Transport CGST (Rs)</string>
     <string name="trnstotal_amt">Total Transport  Amount (Rs)</string>
 
+    <string name="endusermsgnew">An Error occured while raising a fertilizer request</string>
+    <string name="edibleoil">వంట నునె</string>
+    <string name="success_edible">వంట నునె అభ్యర్థన విజయవంతంగా సమర్పించబడింది</string>
+    <string name="Categorytype">Category Type</string>
+
     <!-- we need to use video ids instead of video link -->
     <string-array name="switch_tabs">
         <item>@string/fertgodown</item>

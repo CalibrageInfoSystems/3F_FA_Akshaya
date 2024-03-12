@@ -190,6 +190,15 @@ public class Godown_list extends BaseActivity implements GodownListAdapter.OnIte
             startActivity(i);
             overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
         }
+        if (request_code.equalsIgnoreCase("edible_oil")){
+
+            Intent i = new Intent(Godown_list.this, EdibleOilsActivity.class);
+            i.putExtra("code_godown",Godown_code);
+            i.putExtra("id_godown",GodownId);
+            i.putExtra("name_godown",Godown_name);
+            startActivity(i);
+            overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+        }
     }
 
     @Override
