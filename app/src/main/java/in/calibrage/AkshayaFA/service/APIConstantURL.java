@@ -2,11 +2,11 @@ package in.calibrage.AkshayaFA.service;
 
 public interface APIConstantURL {
 
-//public static  final  String LOCAL_URL="https://3fakshaya.com/api/"; //6 th march live
+//public static  final  String LOCAL_URL="https://3fakshaya.com/api/"; //18th march live
 //public static  final  String LOCAL_URL="http://103.241.144.240:9098/api/";
-//public static  final  String LOCAL_URL="http://103.241.144.240:9096/api/";
+public static  final  String LOCAL_URL="http://103.241.144.240:9096/api/";
 
-public static  final String LOCAL_URL="http://182.18.157.215/3FAkshaya/API/api/";//test local
+//public static  final String LOCAL_URL="http://182.18.157.215/3FAkshaya/API/api/";//test local
 
     //String LookUpCategory = "GetActiveLookUp/9";
     String Login = "User/Login";

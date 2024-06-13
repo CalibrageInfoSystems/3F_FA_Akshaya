@@ -15,7 +15,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -128,6 +131,10 @@ public class Fert_godown_list extends BaseActivity {
     Button dialogButton;
     LoginResponse created_user;
     private Integer User_id;
+
+    CheckBox paymentcheckbox;
+    boolean imdpayment = false;
+    RelativeLayout check_payment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,7 +161,8 @@ public class Fert_godown_list extends BaseActivity {
         btn_submit = findViewById(R.id.btn_submit);
         //txt_select_godown = findViewById(R.id.txt_select_godown);
         txt_Payment_mode = findViewById(R.id.txt_Payment_mode);
-
+        paymentcheckbox =findViewById(R.id.check_Box);
+        check_payment =findViewById(R.id.check_payment);
         subsidy_amount = findViewById(R.id.subcdamount);
         paybleamount = findViewById(R.id.paybleamount);
         //         sw_paymentMode = findViewById(R.id.sw_paymentMode);
@@ -179,10 +187,27 @@ public class Fert_godown_list extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "---------- Finish ----------------");
+                saveEmptyCartItems();
                 Intent intent = new Intent(Fert_godown_list.this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
+
+            }
+        });
+        paymentcheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+
+                    // CostConfig();
+                    imdpayment = true;
+
+                }
+                else {
+                    imdpayment = false;
+                }
+
             }
         });
         SharedPreferences pref = getSharedPreferences("FARMER", MODE_PRIVATE);
@@ -385,7 +410,14 @@ public class Fert_godown_list extends BaseActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String seleced_payment = paymentspin.getItemAtPosition(paymentspin.getSelectedItemPosition()).toString();
                 Log.e("seleced_payment==", seleced_payment);
-
+                // Clear the checkbox state
+                paymentcheckbox.setChecked(false);
+                if (seleced_payment.equalsIgnoreCase("Against FFB")){
+                    check_payment.setVisibility(View.VISIBLE);
+                }
+                else{
+                    check_payment.setVisibility(View.GONE);
+                }
 
 //            }
             }
@@ -557,6 +589,15 @@ public class Fert_godown_list extends BaseActivity {
         requestModel.setCropMaintainceDate(null);
         requestModel.setIssueTypeId(null);
         requestModel.setClusterId(Cluster_id);
+        switch (payment_id.get(paymentspin.getSelectedItemPosition() - 1)) {
+            case 26:
+                requestModel.setIsImmediatePayment(imdpayment);
+                break;
+            default:
+                requestModel.setIsImmediatePayment(null);
+                break;
+        }
+
         List<FertRequest.RequestProductDetail> req_products = new ArrayList<>();
 
         for (int i = 0; i < SharedPrefsData.getFertCartData(this).size(); i++) {

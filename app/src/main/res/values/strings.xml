@@ -930,8 +930,8 @@
     <string name="validatewaitingcharges">Please Select Do you charge waiting charges from farmers if load delays at farmer garden</string>
     <string name="validatechargedetails">Please Enter Details of Charges (Rs )</string>
     <string name="validateinterest">Please Select Do you interested to join 3F Akshaya app platform to provide transport service to farmers</string>
-    <string name="vendortransportservice">Vendor Transport Service Details Sumbmitted Successfully</string>
-    <string name="farmertransportservice">Farmer Transport Service Details Sumbmitted Successfully</string>
+    <string name="vendortransportservice">Vendor Transport Service Details Submitted Successfully</string>
+    <string name="farmertransportservice">Farmer Transport Service Details Submitted Successfully</string>
 
     <string name="driverpertrans">Driver for Transportation</string>
     <string name="driverpayment">Driver Amount(Rs)</string>
@@ -1104,6 +1104,7 @@
     <string name="endusermsgnew">An Error occured while raising a fertilizer request</string>
     <string name="edibleoil">Edible Oil</string>
     <string name="Categorytype">Category Type</string>
+    <string name="imdpayment">Immediate Payment</string>
 
     <string-array name="switch_tabs">
 

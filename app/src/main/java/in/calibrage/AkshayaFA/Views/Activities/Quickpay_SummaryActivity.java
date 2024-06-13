@@ -35,6 +35,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -927,6 +928,7 @@ public class Quickpay_SummaryActivity extends BaseActivity {
         if (d1 > 0.0) {
             mdilogue.show();
             JsonObject object = quickReuestobject();
+            Log.e("object===",object+"");
 
             ApiService service = ServiceFactory.createRetrofitService(this, ApiService.class);
             mSubscription = service.postquickpay(object)
@@ -975,52 +977,95 @@ public class Quickpay_SummaryActivity extends BaseActivity {
         }
 
     }
-    private void showSuccesspdf(String result) {
-;
+//    private void showSuccesspdf(String result) {
+//;
+//        mdilogue.show();
+//        final Dialog dialog = new Dialog(this);
+//
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        dialog.setCancelable(false);
+//        if (langID == 2)
+//            updateResources(this, "te");
+//        else
+//            updateResources(this, "en-US");
+//        dialog.setContentView(R.layout.pdf_dialog);
+//        final WebView webView = dialog.findViewById(R.id.webView);
+//        Button btn_dialog = dialog.findViewById(R.id.btn_dialog);
+//        TextView request_head = dialog.findViewById(R.id.request_head);
+//        request_head.setText(getResources().getString(R.string.quick_pdf));
+//       // WebSettings settings = webView.getSettings();
+//        webView.getSettings().setJavaScriptEnabled(true);
+//        webView.getSettings().setSupportZoom(true);
+//        webView.getSettings().setBuiltInZoomControls(true);
+//
+//
+//
+//
+//        webView.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+//                super.onPageStarted(view, url, favicon);
+//
+//                webView.loadUrl("javascript:(function() { " +
+//                        "document.querySelector('[role=\"toolbar\"]').remove();})()");
+//                mdilogue.show();
+//            }
+//            @Override
+//            public void onPageFinished(WebView view, String url) {
+//                super.onPageFinished(view, url);
+//                webView.loadUrl("javascript:(function() { " +
+//                        "document.querySelector('[role=\"toolbar\"]').remove();})()");
+//                mdilogue.dismiss();
+//            }
+//        });
+//
+//        PdfWebViewClient pdfWebViewClient = new PdfWebViewClient(Quickpay_SummaryActivity.this, webView);
+//        pdfWebViewClient.loadPdfUrl("https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwjgwIfp3KXSAhXrhFQKHQqEDHYQFggZMAA&url=http%3A%2F%2Fwww.orimi.com%2Fpdf-test.pdf&usg=AFQjCNERYYcSfMLS5ukBcT2Qy11YxEhXqw&cad=rja");
+////
+//        btn_dialog.setOnClickListener(new View.OnClickListener() {
+//            @RequiresApi(api = Build.VERSION_CODES.M)
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//                List<MSGmodel> displayList = new ArrayList<>();
+//
+//                showSuccessDialog(displayList, getResources().getString(R.string.qucick_success));
+////
+//            }
+//        });
+//        dialog.show();
+//
+//    }
+
+    private void showSuccesspdf(final String result) {
         mdilogue.show();
         final Dialog dialog = new Dialog(this);
-
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
-        if (langID == 2)
-            updateResources(this, "te");
-        else
-            updateResources(this, "en-US");
         dialog.setContentView(R.layout.pdf_dialog);
         final WebView webView = dialog.findViewById(R.id.webView);
+        final ProgressBar progressBar = dialog.findViewById(R.id.progressBar);
         Button btn_dialog = dialog.findViewById(R.id.btn_dialog);
-        TextView request_head = dialog.findViewById(R.id.request_head);
-        request_head.setText(getResources().getString(R.string.quick_pdf));
-       // WebSettings settings = webView.getSettings();
+
+        progressBar.setVisibility(View.VISIBLE); // Show the progress bar initially
+        //  String pdfurl = "https://3FAkshaya.com/3FAkshayaRepo/FileRepository/2023/07/28/QuickpayPdf/20230728111114410.pdf";
+
+        String doc = "https://docs.google.com/gview?embedded=true&url=" + result;
+
+        //   String doc = "https://docs.google.com/gview?embedded=true&url=" + pdfurl;
+
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setSupportZoom(true);
-        webView.getSettings().setBuiltInZoomControls(true);
-
-
-
+        webView.getSettings().setAllowFileAccess(true);
+        webView.loadUrl(doc);
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-
-                webView.loadUrl("javascript:(function() { " +
-                        "document.querySelector('[role=\"toolbar\"]').remove();})()");
-                mdilogue.show();
-            }
-            @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                webView.loadUrl("javascript:(function() { " +
-                        "document.querySelector('[role=\"toolbar\"]').remove();})()");
-                mdilogue.dismiss();
+                progressBar.setVisibility(View.GONE); // Hide the progress bar when page is loaded
             }
         });
 
-        PdfWebViewClient pdfWebViewClient = new PdfWebViewClient(Quickpay_SummaryActivity.this, webView);
-        pdfWebViewClient.loadPdfUrl(
-                "https://www.google.co.in/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwjgwIfp3KXSAhXrhFQKHQqEDHYQFggZMAA&url=http%3A%2F%2Fwww.orimi.com%2Fpdf-test.pdf&usg=AFQjCNERYYcSfMLS5ukBcT2Qy11YxEhXqw&cad=rja");
-//
         btn_dialog.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -1030,12 +1075,18 @@ public class Quickpay_SummaryActivity extends BaseActivity {
 
                 showSuccessDialog(displayList, getResources().getString(R.string.qucick_success));
 //
+//                        Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
+//                        finish();
+
+
+
             }
         });
+
         dialog.show();
-
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private JsonObject quickReuestobject() {

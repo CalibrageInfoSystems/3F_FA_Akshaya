@@ -136,7 +136,7 @@ public class FertilizerActivity extends BaseActivity implements  ModelFertAdapte
                 .setTheme(R.style.Custom)
                 .build();
         settoolbar();
-
+        saveEmptyCartItems();
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
