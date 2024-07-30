@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="in.calibrage.AkshayaFA"
-    android:versionCode="21"
-    android:versionName="21.0"> <!--6th march-->
+    android:versionCode="23"
+    android:versionName="23.0"> <!--16th july-->
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature

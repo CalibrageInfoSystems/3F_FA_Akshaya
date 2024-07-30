@@ -8,8 +8,8 @@ android {
        //applicationId "in.calibrage.AkshayaFA"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 21
-        versionName "21.0" //6th march
+        versionCode 23
+        versionName "23.0" //6th march
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true

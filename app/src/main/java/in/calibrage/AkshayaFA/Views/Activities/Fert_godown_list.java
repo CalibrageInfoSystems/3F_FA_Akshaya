@@ -514,8 +514,8 @@ public class Fert_godown_list extends BaseActivity {
                             }, 300);
                         }
                         else {
-                            //    showDialog(Fert_godown_list.this, getString(R.string.endusermsg));
-                            showDialog(Fert_godown_list.this, getString(R.string.endusermsgnew));
+                            showDialog(Fert_godown_list.this, fertResponse.getEndUserMessage());
+                          //  showDialog(Fert_godown_list.this, getString(R.string.endusermsgnew));
                         }
 
 
